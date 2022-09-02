@@ -14,7 +14,7 @@ class Container3 extends StatelessWidget {
       transform: Matrix4.rotationZ(0.1),
       child: FittedBox(
         fit: BoxFit.fill,
-        child: Image.network('https://flutter.github.io'
+        child: Image.network('https://flutter.github.io/'
             'assets-for-api-docs/assets/widgets/owl-2.jpg'),
       ),
     ));

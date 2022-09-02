@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'screens/a_sized_box.dart';
 import 'screens/b_sized_box.dart';
 import 'screens/c_sized_box.dart';
@@ -9,12 +11,15 @@ import 'screens/h_column.dart';
 import 'screens/i_column.dart';
 import 'screens/j_column.dart';
 import 'screens/k_column.dart';
+import 'screens/l_column.dart';
 import 'screens/m_container.dart';
 import 'screens/n_container.dart';
 import 'screens/o_container.dart';
 import 'screens/p_container.dart';
 import 'screens/q_container.dart';
-import 'package:flutter/material.dart';
+import 'screens/r_container.dart';
+import 'screens/s_cart.dart';
+import 'screens/t_completa.dart';
 
 void main() {
   runApp(const MyApp());
@@ -95,11 +100,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Column2(),
             Column3(),
             Column4(),
+            Column5(),
             Container1(),
             Container2(),
             Container3(),
             Container4(),
-            Container5()
+            Container5(),
+            Container6(),
+            Card1(),
+            CompleteView1()
           ],
         ));
   }
@@ -283,4 +292,16 @@ Center(
       child: const Icon(Icons.alarm),
     ));  
   """,
+  """
+    Tente fazer algo parecido sozinho
+  """,
+  """
+    Tente fazer algo parecido sozinho
+  """,
+  """
+    Tente fazer algo parecido sozinho
+  """,
+  """
+    Tente fazer algo parecido sozinho
+  """
 ];
