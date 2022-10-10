@@ -13,9 +13,11 @@ class InternetBloc extends Bloc<ConnectivityResult, ConnectionStatus> {
   StreamSubscription? connectivityStream;
 
   InternetBloc() : super(ConnectionStatus.offline) {
-    connectivityStream = connectivity.onConnectivityChanged.listen((event) {
-      add(event);
-    });
+    connectivityStream = connectivity.onConnectivityChanged.listen(
+      (ConnectivityResult event) {
+        add(event);
+      },
+    );
 
     on<ConnectivityResult>((event, emit) async {
       //print("status chagnged");
@@ -29,12 +31,14 @@ class InternetBloc extends Bloc<ConnectivityResult, ConnectionStatus> {
         } catch (_) {
           isOnline = false;
         }
-        if (isOnline && event == ConnectivityResult.wifi) {
-          emit(ConnectionStatus.wifion);
+        if (isOnline) {
+          if (event == ConnectivityResult.wifi) {
+            emit(ConnectionStatus.wifion);
+          } else {
+            emit(ConnectionStatus.online);
+          }
         } else if (event == ConnectivityResult.wifi) {
           emit(ConnectionStatus.wifioff);
-        } else if (isOnline) {
-          emit(ConnectionStatus.online);
         } else {
           emit(ConnectionStatus.offline);
         }
@@ -44,9 +48,7 @@ class InternetBloc extends Bloc<ConnectivityResult, ConnectionStatus> {
 
   @override
   Future<void> close() {
-    if (connectivityStream != null) {
-      connectivityStream?.cancel();
-    }
+    connectivityStream?.cancel();
     return super.close();
   }
 }
