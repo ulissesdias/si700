@@ -13,9 +13,12 @@ class NoteCollection {
     return idList.length;
   }
 
-  Note getNodeAtIndex(int index) {
+  Note getNoteAtIndex(int index) {
     Note note = noteList[index];
-    return Note.withData(title: note.title, description: note.description);
+    return Note.withData(
+      title: note.title,
+      description: note.description,
+    );
   }
 
   String getIdAtIndex(int index) {
@@ -28,19 +31,25 @@ class NoteCollection {
         return i;
       }
     }
-
     return -1;
   }
 
   updateOrInsertNoteOfId(String id, Note note) {
     int index = getIndexOfId(id);
     if (index != -1) {
-      noteList[index] =
-          Note.withData(title: note.title, description: note.description);
+      // Update
+      noteList[index] = Note.withData(
+        title: note.title,
+        description: note.description,
+      );
     } else {
+      // Insert
       idList.add(id);
       noteList.add(
-        Note.withData(title: note.title, description: note.description),
+        Note.withData(
+          title: note.title,
+          description: note.description,
+        ),
       );
     }
   }
@@ -64,7 +73,10 @@ class NoteCollection {
   insertNoteOfId(String id, Note note) {
     idList.add(id);
     noteList.add(
-      Note.withData(title: note.title, description: note.description),
+      Note.withData(
+        title: note.title,
+        description: note.description,
+      ),
     );
   }
 }

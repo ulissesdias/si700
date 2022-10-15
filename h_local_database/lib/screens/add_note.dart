@@ -8,7 +8,6 @@ class AddNote extends StatelessWidget {
   AddNote({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> formKey = GlobalKey();
-  final Note note = Note();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +75,11 @@ class AddNote extends StatelessWidget {
     );
   }
 
-  Widget submitButton(Note note, BuildContext context, ManageState state) {
+  Widget submitButton(
+    Note note,
+    BuildContext context,
+    ManageState state,
+  ) {
     return ElevatedButton(
         child: (state is UpdateState
             ? const Text("Update Data")
@@ -86,7 +89,14 @@ class AddNote extends StatelessWidget {
         onPressed: () {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
-            BlocProvider.of<ManageBloc>(context).add(SubmitEvent(note: note));
+            BlocProvider.of<ManageBloc>(context).add(
+              SubmitEvent(
+                note: Note.withData(
+                  title: note.title,
+                  description: note.description,
+                ),
+              ),
+            );
 
             formKey.currentState!.reset();
           }
@@ -97,7 +107,9 @@ class AddNote extends StatelessWidget {
     return (state is UpdateState
         ? ElevatedButton(
             onPressed: () {
-              BlocProvider.of<ManageBloc>(context).add(UpdateCancel());
+              BlocProvider.of<ManageBloc>(context).add(
+                UpdateCancel(),
+              );
             },
             child: const Text("Cancel Update"))
         : Container());
