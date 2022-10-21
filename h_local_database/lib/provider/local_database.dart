@@ -49,7 +49,6 @@ class LocalDatabase {
   Future<int> insertNote(Note note) async {
     Database? db = await database;
     int result = await db.insert(noteTable, note.toMap());
-    //notify();
     notify(result.toString(), note);
     return result;
   }
@@ -74,17 +73,24 @@ class LocalDatabase {
 
   Future<NoteCollection> getNoteList() async {
     Database db = await database;
+
     List<Map<String, Object?>> noteMapList =
         await db.rawQuery("SELECT * FROM $noteTable;");
+
     NoteCollection noteCollection = NoteCollection();
 
     for (int i = 0; i < noteMapList.length; i++) {
       Note note = Note.fromMap(noteMapList[i]);
 
-      noteCollection.insertNoteOfId(noteMapList[i][colId].toString(), note);
+      noteCollection.insertNoteOfId(
+        noteMapList[i][colId].toString(),
+        note,
+      );
     }
     return noteCollection;
-  } /*  */
+  }
+
+  /*  */
 
   /*
      Parte da STREAM

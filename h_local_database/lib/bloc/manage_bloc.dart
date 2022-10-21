@@ -5,7 +5,10 @@ import '../provider/local_database.dart';
 class ManageBloc extends Bloc<ManageEvent, ManageState> {
   ManageBloc() : super(InsertState()) {
     on<UpdateRequest>((event, emit) {
-      emit(UpdateState(noteId: event.noteId, previousNote: event.previousNote));
+      emit(UpdateState(
+        noteId: event.noteId,
+        previousNote: event.previousNote,
+      ));
     });
 
     on<UpdateCancel>((event, emit) {
@@ -18,8 +21,10 @@ class ManageBloc extends Bloc<ManageEvent, ManageState> {
         LocalDatabase.helper.insertNote(event.note);
       } else if (state is UpdateState) {
         //ToDo: Inserir uma chamada de Update
-        LocalDatabase.helper
-            .updateNote((state as UpdateState).noteId, event.note);
+        LocalDatabase.helper.updateNote(
+          (state as UpdateState).noteId,
+          event.note,
+        );
         emit(InsertState());
       }
     });
