@@ -8,14 +8,7 @@ class MonitorBloc extends Bloc<MonitorEvent, MonitorState> {
 
   MonitorBloc() : super(MonitorState(noteCollection: NoteCollection())) {
     FirestoreDatabase.helper.stream.listen((event) {
-      String noteId = event[0];
-
-      if (event[1] == null) {
-        // Ocorreu um delete
-        noteCollection.deleteNoteOfId(noteId);
-      } else {
-        noteCollection.updateOrInsertNoteOfId(noteId, event[1]);
-      }
+      noteCollection = event;
       add(UpdateList());
     });
 

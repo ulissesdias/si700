@@ -18,14 +18,6 @@ class ListNote extends StatelessWidget {
     return BlocBuilder<MonitorBloc, MonitorState>(
       builder: (context, state) => getNoteListView(state.noteCollection),
     );
-
-    /*return getNoteListView(NoteCollection()
-      ..updateOrInsertNoteOfId(
-          "1",
-          Note.withData(
-            title: "aasdfghjkl",
-            description: "a",
-          )));*/
   }
 
   ListView getNoteListView(NoteCollection noteCollection) {
@@ -36,7 +28,7 @@ class ListNote extends StatelessWidget {
                 //print(noteCollection.getIdAtIndex(position));
                 BlocProvider.of<ManageBloc>(context).add(UpdateRequest(
                   noteId: noteCollection.getIdAtIndex(position),
-                  previousNote: noteCollection.getNodeAtIndex(position),
+                  previousNote: noteCollection.getNoteAtIndex(position),
                 ));
               },
               leading: Icon(icons[position % icons.length]),
@@ -46,9 +38,9 @@ class ListNote extends StatelessWidget {
                         noteId: noteCollection.getIdAtIndex(position)));
                   },
                   child: const Icon(Icons.delete)),
-              title: Text(noteCollection.getNodeAtIndex(position).title),
+              title: Text(noteCollection.getNoteAtIndex(position).title),
               subtitle:
-                  Text(noteCollection.getNodeAtIndex(position).description),
+                  Text(noteCollection.getNoteAtIndex(position).description),
             ));
   }
 }

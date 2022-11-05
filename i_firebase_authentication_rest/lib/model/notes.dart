@@ -13,7 +13,7 @@ class NoteCollection {
     return idList.length;
   }
 
-  Note getNodeAtIndex(int index) {
+  Note getNoteAtIndex(int index) {
     Note note = noteList[index];
     return Note.withData(title: note.title, description: note.description);
   }
