@@ -1,0 +1,17 @@
+{
+  "name": "k_web_service_backend",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\"> SI700 - Programação para Dispositivos Móveis </h1>",
+  "main": "com_mongo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "socket.io": "^4.5.3"
+  }
+}
