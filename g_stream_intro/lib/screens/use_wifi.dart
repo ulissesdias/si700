@@ -13,7 +13,7 @@ class UseWiFi extends StatelessWidget {
         builder: (context, state) {
       if (state == ConnectionStatus.wifioff ||
           state == ConnectionStatus.wifion) {
-        return const Text("Voce tem wif"); //ListNote();
+        return const Text("Voce tem wifi"); //ListNote();
       } else {
         return const Text("Esta parte do formulário precisa de wifi");
       }
