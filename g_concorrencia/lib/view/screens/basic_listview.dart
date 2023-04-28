@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class BasicListView extends StatelessWidget {
@@ -25,12 +27,12 @@ class BasicListView extends StatelessWidget {
           subtitle: const Text("ListTile e Leading clicáveis"),
           leading: GestureDetector(
               onTap: () {
-                print("Gesture Detector");
+                log("Gesture Detector");
               },
               child: const Icon(Icons.access_time)),
           trailing: const Icon(Icons.add_a_photo),
           onTap: () {
-            print("ListTile");
+            log("ListTile");
           },
         ),
         const Card(

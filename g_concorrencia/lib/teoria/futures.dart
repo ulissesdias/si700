@@ -1,9 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 
 Future<int> f() async {
   for (int i = 0; i < 3; i++) {
     await Future.delayed(const Duration(seconds: 5));
-    print("f$i");
+    log("f$i");
   }
   return 0;
 }
@@ -11,7 +12,7 @@ Future<int> f() async {
 Future<int> g() async {
   for (int i = 0; i < 3; i++) {
     await Future.delayed(const Duration(seconds: 5));
-    print("g$i");
+    log("g$i");
   }
   return 1;
 }
@@ -19,46 +20,46 @@ Future<int> g() async {
 Future<int> h() async {
   for (int i = 0; i < 3; i++) {
     await Future(() {
-      sleep(Duration(seconds: 5));
+      sleep(const Duration(seconds: 5));
     });
-    print("h$i");
+    log("h$i");
   }
   return 2;
 }
 
-chamadas_sem_await() {
+chamadasSemAwait() {
   Future<int> x = f();
   Future<int> y = g();
-  print(x);
-  print(y);
+  log("$x");
+  log("$y");
 
   x.then((int value) {
-    print(value);
+    log("$value");
   });
 
   y.then((int value) {
-    print(value);
+    log("$value");
   });
 }
 
-chama_f_com_await() async {
+chamaFComAwait() async {
   int x = await f();
-  print(x); // Estava no callback
+  log("$x"); // Estava no callback
 }
 
-chama_g_com_await() async {
+chamaGComAwait() async {
   int y = await g();
-  print(y); // Estava no callback
+  log("$y"); // Estava no callback
 }
 
-chamadas_com_await() {
-  print(chama_f_com_await());
-  print(chama_g_com_await());
+chamadasComAwait() {
+  log(chamaFComAwait());
+  log(chamaGComAwait());
 }
 
 void main() {
-  //chamadas_sem_await();
-  // chamadas_com_await();
+  //chamadasSemAwait();
+  // chamadasComAwait();
 
   h();
   h();
