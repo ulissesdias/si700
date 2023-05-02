@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:g_concorrencia/view/screens/dynamic_listview.dart';
-import 'package:g_concorrencia/view/screens/future_screen.dart';
+import 'view/dynamic_listview.dart';
+import 'view/future_screen.dart';
 
-import 'view/screens/basic_listview.dart';
+import 'view/basic_listview.dart';
+import 'view/stream_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
           const BasicListView(),
           DynamicListView(),
           const FutureScreen(),
+          const StreamsAsyncStar(),
         ],
       ),
       drawer: Drawer(
@@ -82,6 +84,15 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 setState(() {
                   _currentScreen = 2;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("Stream Screen"),
+              onTap: () {
+                setState(() {
+                  _currentScreen = 3;
                 });
                 Navigator.pop(context);
               },
