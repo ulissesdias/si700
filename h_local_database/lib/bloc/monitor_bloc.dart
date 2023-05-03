@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/notes.dart';
 import '../provider/local_database.dart';
 
+/*
+ Bloc: Observar continuamente o banco de dados
+*/
 class MonitorBloc extends Bloc<MonitorEvent, MonitorState> {
   NoteCollection noteCollection = NoteCollection();
 

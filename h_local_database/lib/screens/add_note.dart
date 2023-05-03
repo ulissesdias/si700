@@ -1,41 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../model/note.dart';
 import '../bloc/manage_bloc.dart';
 
-class AddNote extends StatelessWidget {
-  AddNote({Key? key}) : super(key: key);
+class AddNote extends StatefulWidget {
+  const AddNote({Key? key}) : super(key: key);
 
+  @override
+  State<AddNote> createState() => _AddNoteState();
+}
+
+class _AddNoteState extends State<AddNote> {
   final GlobalKey<FormState> formKey = GlobalKey();
+
+  final _widgetsValues = Hive.box("widgets_values2");
+
+  final titleController = TextEditingController();
+
+  final descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ManageBloc, ManageState>(builder: (context, state) {
-      Note note;
-      if (state is UpdateState) {
-        note = state.previousNote;
-      } else {
-        note = Note();
-      }
-      return Form(
-          key: formKey,
-          child: Column(
-            children: [
-              tituloFormField(note),
-              descriptionFormField(note),
-              submitButton(note, context, state),
-              cancelButton(note, context, state),
-            ],
-          ));
-    });
+    return BlocListener<ManageBloc, ManageState>(
+      listener: (context, state) {
+        if (state is UpdateState) {
+          titleController.text = state.previousNote.title;
+          descriptionController.text = state.previousNote.description;
+        }
+      },
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            tituloFormField(),
+            descriptionFormField(),
+            submitButton(),
+            cancelButton(),
+          ],
+        ),
+      ),
+    );
   }
 
-  Widget tituloFormField(Note note) {
+  Widget tituloFormField() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-        initialValue: note.title,
+        //initialValue: _widgetsValues.get('title'),
+        controller: titleController,
         decoration: InputDecoration(
             labelText: "Título",
             border:
@@ -47,71 +61,80 @@ class AddNote extends StatelessWidget {
           return null;
         },
         onSaved: (value) {
-          note.title = value!;
+          _widgetsValues.put('title', value);
+        },
+        onChanged: (value) {
+          _widgetsValues.put('title', value);
         },
       ),
     );
   }
 
-  Widget descriptionFormField(Note note) {
+  Widget descriptionFormField() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-        initialValue: note.description,
+        //initialValue: _widgetsValues.get('description'),
+        controller: descriptionController,
         decoration: InputDecoration(
             labelText: "Anotação",
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
         validator: (value) {
           if (value!.isEmpty) {
-            return "Adicione alguma anotação";
+            return "Adicione alguma descrição";
           }
           return null;
         },
         onSaved: (value) {
-          note.description = value!;
+          _widgetsValues.put('description', value);
+        },
+        onChanged: (value) {
+          _widgetsValues.put('description', value);
         },
       ),
     );
   }
 
-  Widget submitButton(
-    Note note,
-    BuildContext context,
-    ManageState state,
-  ) {
-    return ElevatedButton(
-        child: (state is UpdateState
-            ? const Text("Update Data")
-            : const Text(
-                "Insert Data",
-              )),
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            formKey.currentState!.save();
-            BlocProvider.of<ManageBloc>(context).add(
-              SubmitEvent(
-                note: Note.withData(
-                  title: note.title,
-                  description: note.description,
+  Widget submitButton() {
+    return BlocBuilder<ManageBloc, ManageState>(builder: (context, state) {
+      return ElevatedButton(
+          child: (state is UpdateState
+              ? const Text("Update Data")
+              : const Text(
+                  "Insert Data",
+                )),
+          onPressed: () async {
+            if (formKey.currentState!.validate()) {
+              formKey.currentState!.save();
+              BlocProvider.of<ManageBloc>(context).add(
+                SubmitEvent(
+                  note: Note.withData(
+                    title: _widgetsValues.get('title'),
+                    description: _widgetsValues.get('description'),
+                  ),
                 ),
-              ),
-            );
-
-            formKey.currentState!.reset();
-          }
-        });
+              );
+              await _widgetsValues.put('title', "");
+              await _widgetsValues.put('description', "");
+              titleController.clear();
+              descriptionController.clear();
+            }
+          });
+    });
   }
 
-  Widget cancelButton(Note note, BuildContext context, ManageState state) {
-    return (state is UpdateState
-        ? ElevatedButton(
-            onPressed: () {
-              BlocProvider.of<ManageBloc>(context).add(
-                UpdateCancel(),
-              );
-            },
-            child: const Text("Cancel Update"))
-        : Container());
+  Widget cancelButton() {
+    return BlocBuilder<ManageBloc, ManageState>(builder: (context, state) {
+      return (state is UpdateState
+          ? ElevatedButton(
+              onPressed: () async {
+                BlocProvider.of<ManageBloc>(context).add(
+                  UpdateCancel(),
+                );
+              },
+              child: const Text("Cancel Update"))
+          : Container());
+    });
   }
 }

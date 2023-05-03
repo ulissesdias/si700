@@ -2,6 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/note.dart';
 import '../provider/local_database.dart';
 
+/*
+ Bloc: gerenciar o banco de dados
+*/
 class ManageBloc extends Bloc<ManageEvent, ManageState> {
   ManageBloc() : super(InsertState()) {
     on<UpdateRequest>((event, emit) {
@@ -62,7 +65,6 @@ class UpdateCancel extends ManageEvent {}
 /*
 Estados
 */
-
 abstract class ManageState {}
 
 class InsertState extends ManageState {}

@@ -33,6 +33,7 @@ class LocalDatabase {
   Future<Database> initializeDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = "${directory.path}notes.db";
+
     return openDatabase(path, version: 1, onCreate: _createDb);
   }
 

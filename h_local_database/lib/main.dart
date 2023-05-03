@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:h_local_database/screens/add_notes.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'screens/add_note.dart';
 import 'screens/list_note.dart';
@@ -7,20 +9,25 @@ import 'screens/list_note.dart';
 import 'bloc/manage_bloc.dart';
 import 'bloc/monitor_bloc.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  await Hive.openBox('widgets_values');
+  await Hive.openBox("list_view_data");
+  await Hive.openBox('widgets_values2');
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
-      title: 'Flutter Stateful Clicker Counter',
+      title: 'Aula 07 - Memória Persistente',
       theme: ThemeData(
-        // Application theme data, you can set the colors for the application as
-        // you want
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Local Database'),
@@ -33,43 +40,58 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
+  var _currentScreen = 0;
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ManageBloc()),
+        BlocProvider(create: (_) => MonitorBloc()),
+      ],
+      child: BlocListener<ManageBloc, ManageState>(
+        listener: (context, state) {
+          if (state is UpdateState) {
+            setState(() {
+              _currentScreen = 1;
+            });
+          }
+        },
+        child: Scaffold(
           appBar: AppBar(
-              // Here we take the value from the MyHomePage object that was created by
-              // the App.build method, and use it to set our appbar title.
-              title: Text(widget.title),
-              bottom: const TabBar(
-                tabs: [
-                  Tab(icon: Icon(Icons.directions)),
-                  Tab(icon: Icon(Icons.ac_unit))
-                ],
-              )),
-          body: MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (_) => ManageBloc()),
-              BlocProvider(create: (_) => MonitorBloc()),
+            title: Text(widget.title),
+          ),
+          body: IndexedStack(
+            index: _currentScreen,
+            children: [
+              const AddNotes(),
+              const AddNote(),
+              ListNote(),
             ],
-            child: TabBarView(
-              children: [
-                AddNote(),
-                ListNote(),
-              ],
-            ),
-          )),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.remove_red_eye), label: "Multi Insert"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.send_sharp), label: "Manage"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.email), label: "Monitor"),
+            ],
+            currentIndex: _currentScreen,
+            onTap: (int novoItem) {
+              setState(() {
+                _currentScreen = novoItem;
+              });
+            },
+            fixedColor: Colors.red,
+          ),
+        ),
+      ),
     );
   }
 }
