@@ -5,10 +5,10 @@ class Column4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
+      children: [
         Text("1"),
         Text("2"),
         Text("3"),

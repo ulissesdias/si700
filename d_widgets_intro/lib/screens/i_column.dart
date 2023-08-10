@@ -5,11 +5,11 @@ class Column2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
+    return const SizedBox.expand(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text("1"),
           Text("2"),
           Text("3"),

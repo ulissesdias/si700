@@ -5,10 +5,10 @@ class Column5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
+      children: [
         Text("1"),
         Expanded(
           // Este filho tomará o espaço excedente.

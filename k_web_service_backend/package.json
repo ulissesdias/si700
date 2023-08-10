@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "<h1 align=\"center\"> SI700 - Programação para Dispositivos Móveis </h1>",
   "main": "com_mongo.js",
-  "scripts": {
+    "scripts": {
+	"start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

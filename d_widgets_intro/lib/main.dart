@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/a_sized_box.dart';
@@ -82,34 +83,42 @@ class _MyHomePageState extends State<MyHomePage> {
             })
           ],
         ),
-        body: PageView(
-          controller: _controller,
-          onPageChanged: (index) {
-            localPage = index;
-          },
-          // O parâmetro "children" recebe todas as páginas
-          children: const [
-            SizedBox1(),
-            SizedBox2(),
-            SizedBox3(),
-            SizedBox4(),
-            Center1(),
-            Center2(),
-            Center3(),
-            Column1(),
-            Column2(),
-            Column3(),
-            Column4(),
-            Column5(),
-            Container1(),
-            Container2(),
-            Container3(),
-            Container4(),
-            Container5(),
-            Container6(),
-            Card1(),
-            CompleteView1()
-          ],
+        body: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(
+            dragDevices: {
+              PointerDeviceKind.touch,
+              PointerDeviceKind.mouse,
+            },
+          ),
+          child: PageView(
+            controller: _controller,
+            onPageChanged: (index) {
+              localPage = index;
+            },
+            // O parâmetro "children" recebe todas as páginas
+            children: const [
+              SizedBox1(),
+              SizedBox2(),
+              SizedBox3(),
+              SizedBox4(),
+              Center1(),
+              Center2(),
+              Center3(),
+              Column1(),
+              Column2(),
+              Column3(),
+              Column4(),
+              Column5(),
+              Container1(),
+              Container2(),
+              Container3(),
+              Container4(),
+              Container5(),
+              Container6(),
+              Card1(),
+              CompleteView1()
+            ],
+          ),
         ));
   }
 }
