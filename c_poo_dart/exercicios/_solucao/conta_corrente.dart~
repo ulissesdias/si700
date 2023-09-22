@@ -1,0 +1,37 @@
+class Cliente{
+  String nome;
+  int idade;
+
+  Cliente({this.nome, this.idade});
+
+  String toString(){
+    return "$nome,$idade";
+  }
+}
+
+abstract class ContaCorrente{
+  Cliente? _cliente;
+  double _saldo = 0;
+
+  ContaCorrente (Cliente cliente, double saldo){
+    this._cliente = cliente;
+    this._saldo = saldo;
+  }
+
+  double get saldo => _saldo;
+
+  set saldo(double valor){
+    this._saldo = valor;
+  }
+
+  void print_saldo(){
+    print(this._saldo);
+  }
+}
+
+class ContaComum extends ContaCorrente{
+  ContaComum
+}
+
+
+

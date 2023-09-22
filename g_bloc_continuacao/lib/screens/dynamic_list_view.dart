@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class DynamicListView extends StatelessWidget {
-  DynamicListView({super.key});
+  const DynamicListView({super.key});
 
-  final List texto = ["A", "B", "C", "D", "E", "F"];
-  final List colors = [
+  final texto = const ["A", "B", "C", "D", "E", "F"];
+  final List colors = const [
     Colors.green,
     Colors.grey,
     Colors.blue,
     Colors.red,
   ];
-  final List icons = [
+  final List icons = const [
     Icons.cake,
     Icons.calendar_month_outlined,
     Icons.account_balance

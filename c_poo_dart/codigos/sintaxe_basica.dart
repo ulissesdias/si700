@@ -319,7 +319,47 @@ class PessoaImplementada implements Pessoa {
 
 }
 
+/* A classe a seguir possui um construtor constante.  Um Construtor constante é
+  um construtor que cria um objeto constante. Um objeto constante é um objeto
+  cujo valor não pode ser alterado. Um construtor constante é declarado usando a
+  palavra-chave const.
+
+  Regra para declarar construtor constante no Dart
+  
+  1. Todas as propriedades da classe devem ser finais.
+  2. Não tem nenhum corpo.  
+  3. Somente a classe que contém o construtor const é inicializada usando a
+  palavra-chave const.
+
+  */
+class Point {
+  final int x;
+  final int y;
+  
+  const Point(this.x, this.y);
+}
+
+  
+
 main(){
   instanciandoSemUtilidade();
   instanciandoProfessor();
+
+  /* Com a palavra const, os objetos são criados em tempo de compilação. Por
+  isso, os dois objetos a seguir possuem o mesmo hashCode.  */
+  
+  Point p1 = const Point(1, 2);
+  print("The p1 hash code is: ${p1.hashCode}");
+
+  Point p2 = const Point(1, 2);
+  print("The p2 hash code is: ${p2.hashCode}");
+  
+  /* Sem usar const, os objetos são criados em tempo de execuão, por conta
+  disso, os objetos a seguir possuem hashCodes diferentes.*/
+  
+  Point p3 = Point(2, 2);
+  print("The p3 hash code is: ${p3.hashCode}");
+
+  Point p4 = Point(2, 2);
+  print("The p4 hash code is: ${p4.hashCode}");
 }
