@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "589839738233",
+    "firebase_url": "https://si7001s2023-default-rtdb.firebaseio.com",
+    "project_id": "si7001s2023",
+    "storage_bucket": "si7001s2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589839738233:android:af24c2ffc69a3892a53ba8",
+        "android_client_info": {
+          "package_name": "com.example.h_concorrencia_firebase_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxa59M_KZq4iAV21hiTyy1nQjSdxx4704"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589839738233:android:a7f074bfc76b24eaa53ba8",
+        "android_client_info": {
+          "package_name": "ft.unicamp.si7001s2023"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxa59M_KZq4iAV21hiTyy1nQjSdxx4704"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
