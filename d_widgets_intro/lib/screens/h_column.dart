@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'widget_with_code.dart';
 
-class Column1 extends StatelessWidget {
-  const Column1({super.key});
-
+class Column1 extends WidgetWithCode {
   @override
-  Widget build(BuildContext context) {
+  Widget getWidget() {
     return const SizedBox.expand(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -16,5 +15,21 @@ class Column1 extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  String getCode() {
+    return """const SizedBox.expand(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("1"),
+          Text("2"),
+          Text("3"),
+        ],
+      ),
+    )
+""";
   }
 }

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'widget_with_code.dart';
 
-class CompleteView1 extends StatelessWidget {
-  const CompleteView1({super.key});
-
+class CompleteView1 extends WidgetWithCode {
   @override
-  Widget build(BuildContext context) {
+  Widget getWidget() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
             /*
-  Maneira clássica de adicionar uma
-  borda. Vamos simplesmente circular
-  as bordas do container.
-  */
+            Maneira clássica de adicionar uma
+            borda. Vamos simplesmente circular
+            as bordas do container.
+            */
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               // Fazendo a borda circular.
@@ -51,5 +50,11 @@ class CompleteView1 extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  String getCode() {
+    return """Escreva algo parecido por conta própria
+""";
   }
 }

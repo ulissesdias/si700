@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'widget_with_code.dart';
 
-class Center3 extends StatelessWidget {
-  const Center3({super.key});
-
+class Center3 extends WidgetWithCode {
   @override
-  Widget build(BuildContext context) {
+  Widget getWidget() {
     return const Center(
       heightFactor: 3.0,
       child: Icon(Icons.directions_car),
     );
+  }
+
+  @override
+  String getCode() {
+    return """const Center(
+      heightFactor: 3.0,
+      child: Icon(Icons.directions_car),
+    )
+""";
   }
 }

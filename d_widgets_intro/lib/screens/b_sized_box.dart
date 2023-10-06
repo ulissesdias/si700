@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'widget_with_code.dart';
 
-class SizedBox2 extends StatelessWidget {
-  const SizedBox2({super.key});
-
+class SizedBox2 extends WidgetWithCode {
   @override
-  Widget build(BuildContext context) {
+  Widget getWidget() {
     return const SizedBox(
       width: 200,
       height: 400,
@@ -12,5 +11,18 @@ class SizedBox2 extends StatelessWidget {
         child: Text("Child2"),
       ),
     );
+  }
+
+  @override
+  String getCode() {
+    return """
+const SizedBox(
+      width: 200,
+      height: 400,
+      child: FittedBox(
+        child: Text("Child2"),
+      ),
+    )
+""";
   }
 }

@@ -1,3 +1,4 @@
+import 'package:d_widgets_intro/screens/widget_with_code.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -52,265 +53,146 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   // Um objeto da classe PageController gerencia a detecção do gesto de swype.
-  final PageController _controller = PageController(
+  final PageController _pageViewController = PageController(
     initialPage: 0, // Configura a tela inicial
   );
+  final ScrollController _navBarController = ScrollController();
+
+  final List<WidgetWithCode> widgetWithCode = [
+    SizedBox1(),
+    SizedBox2(),
+    SizedBox3(),
+    SizedBox4(),
+    Center1(),
+    Center2(),
+    Center3(),
+    Column1(),
+    Column2(),
+    Column3(),
+    Column4(),
+    Column5(),
+    Container1(),
+    Container2(),
+    Container3(),
+    Container4(),
+    Container5(),
+    Container6(),
+    Card1(),
+    CompleteView1()
+  ];
   int localPage = 0;
 
   @override
   void dispose() {
-    _controller.dispose();
+    _pageViewController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-          actions: [
-            Builder(builder: (context) {
-              return IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.blue[100],
-                    builder: (_) => Text(codes[localPage]),
-                  );
-                },
-                icon: const Icon(Icons.code),
-              );
-            })
-          ],
-        ),
-        body: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(
-            dragDevices: {
-              PointerDeviceKind.touch,
-              PointerDeviceKind.mouse,
-            },
-          ),
-          child: PageView(
-            controller: _controller,
-            onPageChanged: (index) {
-              localPage = index;
-            },
-            // O parâmetro "children" recebe todas as páginas
-            children: const [
-              SizedBox1(),
-              SizedBox2(),
-              SizedBox3(),
-              SizedBox4(),
-              Center1(),
-              Center2(),
-              Center3(),
-              Column1(),
-              Column2(),
-              Column3(),
-              Column4(),
-              Column5(),
-              Container1(),
-              Container2(),
-              Container3(),
-              Container4(),
-              Container5(),
-              Container6(),
-              Card1(),
-              CompleteView1()
-            ],
-          ),
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: [
+          Builder(builder: (context) {
+            return IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.blue[100],
+                  builder: (_) => Text(widgetWithCode[localPage].getCode()),
+                );
+              },
+              icon: const Icon(Icons.code),
+            );
+          })
+        ],
+      ),
+      body: Column(
+        children: [
+          navigationBarButtons(),
+          Expanded(child: pageViewSlides()),
+        ],
+      ),
+    );
+  }
+
+  Widget pageViewSlides() {
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+        },
+      ),
+      child: PageView(
+        controller: _pageViewController,
+        onPageChanged: (index) {
+          setState(() {
+            localPage = index;
+            double offset = (index + 1) *
+                _navBarController.positions.last.maxScrollExtent /
+                20;
+            _navBarController.jumpTo(offset);
+          });
+        },
+        // O parâmetro "children" recebe todas as páginas
+        children: List.generate(widgetWithCode.length,
+            (index) => widgetWithCode[index].getWidget()),
+      ),
+    );
+  }
+
+  Widget navigationBarButtons() {
+    return SingleChildScrollView(
+        controller: _navBarController,
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List<Widget>.generate(20, (int index) {
+            return buildIndexButtons(index);
+          }),
         ));
   }
-}
 
-List<String> codes = [
-  """
-const SizedBox(
-      width: 200,
-      height: 400,
-      child: Text("Child2"),
-    );
-  """,
-  """ 
-const SizedBox(
-      width: 200,
-      height: 400,
-      child: FittedBox(
-        child: Text("Child2"),
-      ),
-    );  
-  """,
-  """ 
-const SizedBox.expand(
-      child: FittedBox(
-        child: Text("Child2"),
-      ),
-    );  
-  """,
-  """ 
-ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 100),
-      child: const FittedBox(
-        child: Text("Child2"),
-      ),
-    );  
-  """,
-  """ 
-const Center(
-      child: Icon(
-        Icons.directions_car,
-      ),
-    );  
-  """,
-  """ 
-const Center(
-      widthFactor: 3.0,
-      child: Icon(Icons.directions_car),
-    );  
-  """,
-  """ 
-const Center(
-      heightFactor: 3.0,
-      child: Icon(Icons.directions_car),
-    );  
-  """,
-  """ 
-SizedBox.expand(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("1"),
-          Text("2"),
-          Text("3"),
-        ],
-      ),
-    );  
-  """,
-  """ 
-Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("1"),
-          Text("2"),
-          Text("3"),
-        ],
-      ),
-    );  
-  """,
-  """ 
-Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
-        Text("1"),
-        Text("2"),
-        Text("3"),
-      ],
-    );  
-  """,
-  """ 
-Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
-        Text("1"),
-        Text("2"),
-        Text("3"),
-      ],
-    );  
-  """,
-  """ 
-Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
-        Text("1"),
-        Expanded(
-          // Este filho tomará o espaço excedente.
-          child: FittedBox(child: Text("2")),
+  TextButton buildIndexButtons(int index) {
+    return TextButton(
+      onPressed: () {
+        // Movendo a página sendo mostrada
+        _pageViewController.jumpToPage(index);
+        /*
+        // Também podemos usar o animateToPage
+        _controller.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );*/
+
+        // Movendo a posição da barra de navegação:
+        double offset = index *
+            _navBarController.positions.last.maxScrollExtent /
+            widgetWithCode.length;
+        _navBarController.jumpTo(offset);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        height: 20.0,
+        width: 20.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color:
+              index == localPage ? Colors.blue : Colors.grey.withOpacity(0.5),
         ),
-        Text("3"),
-      ],
-    );  
-  """,
-  """ 
-Center(
-      child: Container(
-        padding: const EdgeInsets.all(10.0),
-        height: 240,
-        width: 180,
-        color: Colors.red,
-        child: Image.network('https://flutter.github.io/'
-            'assets-for-api-docs/assets/widgets/owl-2.jpg'),
+        child: Center(
+          child: Text(
+            '${index + 1}',
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
-    );  
-  """,
-  """ 
-Center(
-        child: Container(
-      padding: const EdgeInsets.all(10.0),
-      height: 240,
-      width: 180,
-      color: Colors.red,
-      child: FittedBox(
-        fit: BoxFit.fill,
-        child: Image.network('https://flutter.github.io/'
-            'assets-for-api-docs/assets/widgets/owl-2.jpg'),
-      ),
-    ));  
-  """,
-  """ 
-Center(
-        child: Container(
-      padding: const EdgeInsets.all(10.0),
-      height: 240,
-      width: 180,
-      color: Colors.red,
-      transform: Matrix4.rotationZ(0.1),
-      child: FittedBox(
-        fit: BoxFit.fill,
-        child: Image.network('https://flutter.github.io'
-            'assets-for-api-docs/assets/widgets/owl-2.jpg'),
-      ),
-    ));  
-  """,
-  """ 
-Center(
-      child: Container(
-      padding: const EdgeInsets.all(10.0),
-      alignment: Alignment.bottomCenter,
-      height: 240,
-      width: 180,
-      color: Colors.red,
-      child: const Icon(Icons.alarm),
-    ));  
-  """,
-  """ 
-Center(
-        child: Container(
-      padding: const EdgeInsets.all(10.0),
-      alignment: Alignment.center,
-      height: 240,
-      width: 180,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.red,
-      ),
-      child: const Icon(Icons.alarm),
-    ));  
-  """,
-  """
-    Tente fazer algo parecido sozinho
-  """,
-  """
-    Tente fazer algo parecido sozinho
-  """,
-  """
-    Tente fazer algo parecido sozinho
-  """,
-  """
-    Tente fazer algo parecido sozinho
-  """
-];
+    );
+  }
+}
