@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1040749039198",
+    "project_id": "si7002s2023",
+    "storage_bucket": "si7002s2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040749039198:android:e9f925ba5f374417aa2ecf",
+        "android_client_info": {
+          "package_name": "com.example.aula06"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFqq1Ez6EJX19QvbD7mDMkH11bPpofcZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
