@@ -1,4 +1,6 @@
+import 'package:aula06/provider/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../model/note.dart';
 import '../model/notes.dart';
@@ -37,7 +39,8 @@ class FirestoreDatabase {
   }
 
   insertNote(Note note) async {
-    await noteCollection
+    // Passo 1
+    DocumentReference ref = await noteCollection
         .doc(username)
         .collection(
           "my_notes",
@@ -45,7 +48,29 @@ class FirestoreDatabase {
         .add({
       "title": note.title,
       "description": note.description,
+      "path": note.path
     });
+
+    if (note.fileBytes != null) {
+      UploadTask? task =
+          StorageServer.helper.insertImage(username!, ref.id, note.fileBytes!);
+      if (task != null) {
+        var snapshot = await task.whenComplete(() {});
+        note.path = await snapshot.ref.getDownloadURL();
+      }
+
+      await noteCollection
+          .doc(username)
+          .collection("my_notes")
+          .doc(ref.id)
+          .update({
+        "title": note.title,
+        "description": note.description,
+        "path": note.path
+      });
+    }
+
+    // Passo 3: Autalizar o firestore com a URL
   }
 
   updateNote(noteId, Note note) async {

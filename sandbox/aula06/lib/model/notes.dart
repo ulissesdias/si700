@@ -16,7 +16,11 @@ class NoteCollection {
   // index é a posição da note
   Note getNoteAtIndex(int index) {
     Note note = noteList[index];
-    return Note.withData(title: note.title, description: note.description);
+    return Note.withData(
+        title: note.title,
+        description: note.description,
+        path: note.path,
+        fileBytes: note.fileBytes);
   }
 
   String getIdAtIndex(int index) {
@@ -38,12 +42,19 @@ class NoteCollection {
   updateOrInsertNoteOfId(String id, Note note) {
     int index = getIndexOfId(id);
     if (index != -1) {
-      noteList[index] =
-          Note.withData(title: note.title, description: note.description);
+      noteList[index] = Note.withData(
+          title: note.title,
+          description: note.description,
+          path: note.path,
+          fileBytes: note.fileBytes);
     } else {
       idList.add(id);
       noteList.add(
-        Note.withData(title: note.title, description: note.description),
+        Note.withData(
+            title: note.title,
+            description: note.description,
+            path: note.path,
+            fileBytes: note.fileBytes),
       );
     }
   }
@@ -51,8 +62,11 @@ class NoteCollection {
   updateNoteOfId(String id, Note note) {
     int index = getIndexOfId(id);
     if (index != -1) {
-      noteList[index] =
-          Note.withData(title: note.title, description: note.description);
+      noteList[index] = Note.withData(
+          title: note.title,
+          description: note.description,
+          path: note.path,
+          fileBytes: note.fileBytes);
     }
   }
 
@@ -67,7 +81,11 @@ class NoteCollection {
   insertNoteOfId(String id, Note note) {
     idList.add(id);
     noteList.add(
-      Note.withData(title: note.title, description: note.description),
+      Note.withData(
+          title: note.title,
+          description: note.description,
+          path: note.path,
+          fileBytes: note.fileBytes),
     );
   }
 }

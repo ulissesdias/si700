@@ -40,6 +40,10 @@ dependencies:
   firebase_auth: ^4.10.0
   cloud_firestore: ^4.12.1
   dio: ^5.3.3
+  path_provider: ^2.1.1
+  sqflite: ^2.3.0
+  file_picker: ^6.1.1
+  firebase_storage: ^11.5.2
 
 dev_dependencies:
   flutter_test:

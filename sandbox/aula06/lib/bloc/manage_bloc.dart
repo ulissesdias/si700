@@ -1,7 +1,9 @@
+import 'package:aula06/provider/local_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/note.dart';
+import '../provider/firebase_firestore.dart';
 //import '../provider/firebase_firestore.dart';
-import '../provider/rest_provider.dart';
+//import '../provider/rest_provider.dart';
 
 class ManageBloc extends Bloc<ManageEvent, ManageState> {
   ManageBloc() : super(InsertState()) {
@@ -16,11 +18,13 @@ class ManageBloc extends Bloc<ManageEvent, ManageState> {
     on<SubmitEvent>((event, emit) {
       if (state is InsertState) {
         //ToDo: Inserir uma chamada de insert
-        // FirestoreDatabase.helper.insertNote(event.note);
-        RestDataProvider.helper.insertNote(event.note);
+        FirestoreDatabase.helper.insertNote(event.note);
+        //RestDataProvider.helper.insertNote(event.note);
+        //LocalProvider.helper.insertNote(event.note);
       } else if (state is UpdateState) {
         //ToDo: Inserir uma chamada de Update
-        RestDataProvider.helper
+        //RestDataProvider.helper.updateNote((state as UpdateState).noteId, event.note);
+        FirestoreDatabase.helper
             .updateNote((state as UpdateState).noteId, event.note);
         emit(InsertState());
       }
@@ -28,7 +32,8 @@ class ManageBloc extends Bloc<ManageEvent, ManageState> {
     on<DeleteEvent>((event, emit) {
       // ToDo: Inserir uma chamada de Delete
 
-      RestDataProvider.helper.deleteNote(event.noteId);
+      //RestDataProvider.helper.deleteNote(event.noteId);
+      FirestoreDatabase.helper.deleteNote(event.noteId);
     });
   }
 }

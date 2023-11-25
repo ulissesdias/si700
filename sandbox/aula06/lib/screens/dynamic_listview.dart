@@ -39,7 +39,9 @@ class _DynamicListViewState extends State<DynamicListView> {
                     formKeySubmit.currentState!.save();
                     BlocProvider.of<ManageBloc>(context).add(SubmitEvent(
                         note: Note.withData(
-                            title: title, description: description)));
+                      title: title,
+                      description: description,
+                    )));
                   }
                 },
                 child: const Text("Submit"),
@@ -73,6 +75,12 @@ class _DynamicListViewState extends State<DynamicListView> {
                   previousNote: noteCollection.getNoteAtIndex(position),
                 ));
               },
+              leading: SizedBox(
+                height: 40,
+                width: 40,
+                child:
+                    Image.network(noteCollection.getNoteAtIndex(position).path),
+              ),
               trailing: GestureDetector(
                   onTap: () {
                     BlocProvider.of<ManageBloc>(context).add(DeleteEvent(

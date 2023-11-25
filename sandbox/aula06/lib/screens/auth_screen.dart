@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:aula06/bloc/auth_bloc.dart';
 import 'package:aula06/bloc/manage_bloc.dart';
 import 'package:aula06/bloc/monitor_bloc.dart';
+import 'package:aula06/screens/widgets/pick_a_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +23,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   String title = "";
   String description = "";
+  Uint8List? fileBytes;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> formKeySubmit = GlobalKey<FormState>();
@@ -39,36 +43,42 @@ class _AuthScreenState extends State<AuthScreen> {
       }
     }, builder: (context, AuthState state) {
       if (state is Authenticated) {
-        return Form(
-          key: formKeySubmit,
-          child: Column(
-            children: [
-              Text("Legal ${state.username}, você logou"),
-              titleFormField(),
-              descriptionFormField(),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKeySubmit.currentState!.validate()) {
-                    formKeySubmit.currentState!.save();
-                    BlocProvider.of<ManageBloc>(context).add(SubmitEvent(
-                        note: Note.withData(
-                            title: title, description: description)));
-                  }
-                },
-                child: const Text("Submit"),
-              ),
-              ElevatedButton(
+        return SingleChildScrollView(
+          child: Form(
+            key: formKeySubmit,
+            child: Column(
+              children: [
+                Text("Legal ${state.username}, você logou"),
+                titleFormField(),
+                descriptionFormField(),
+                pickAFileFormField(),
+                ElevatedButton(
                   onPressed: () {
-                    BlocProvider.of<MonitorBloc>(context).add(AskNewList());
+                    if (formKeySubmit.currentState!.validate()) {
+                      formKeySubmit.currentState!.save();
+                      BlocProvider.of<ManageBloc>(context).add(SubmitEvent(
+                          note: Note.withData(
+                              title: title,
+                              description: description,
+                              path: "",
+                              fileBytes: fileBytes)));
+                    }
                   },
-                  child: const Text("AskNewList")),
-              ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<AuthBloc>(context).add(Logout());
-                },
-                child: const Text("Deslogue"),
-              ),
-            ],
+                  child: const Text("Submit"),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<MonitorBloc>(context).add(AskNewList());
+                    },
+                    child: const Text("AskNewList")),
+                ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<AuthBloc>(context).add(Logout());
+                  },
+                  child: const Text("Deslogue"),
+                ),
+              ],
+            ),
           ),
         );
       } else {
@@ -136,6 +146,21 @@ class _AuthScreenState extends State<AuthScreen> {
         hintText: "Meu Description",
         labelText: "Description",
       ),
+    );
+  }
+
+  Widget pickAFileFormField() {
+    return PickAFile(
+      validator: (Uint8List? fileBytes) {
+        if (fileBytes == null) {
+          return "Coloque uma imagem";
+        } else {
+          return null;
+        }
+      },
+      onSaved: (Uint8List? inValue) {
+        fileBytes = inValue;
+      },
     );
   }
 

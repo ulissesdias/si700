@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aula06/provider/local_provider.dart';
 import 'package:aula06/provider/rest_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +15,9 @@ class MonitorBloc extends Bloc<MonitorEvent, MonitorState> {
     /**/
 
     on<AskNewList>((event, emit) async {
-      noteCollection = await RestDataProvider.helper.getNoteList();
+      //noteCollection = await RestDataProvider.helper.getNoteList();
+      //noteCollection = await LocalProvider.helper.getNoteList();
+      noteCollection = await FirestoreDatabase.helper.getNoteList();
       emit(MonitorState(noteCollection: noteCollection));
     });
 

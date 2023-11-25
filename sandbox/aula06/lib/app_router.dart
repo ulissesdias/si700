@@ -59,7 +59,7 @@ class AppRouter {
               body: BasicListView());
         });
       case "/dynamic":
-        //monitorBloc.add(UpdateStreamSubscription());
+        monitorBloc.add(UpdateStreamSubscription());
         return MaterialPageRoute(builder: (_) {
           return Scaffold(
               appBar: AppBar(

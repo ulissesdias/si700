@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 class Note {
   String _title = "";
   String _description = "";
   String _path = "";
+  Uint8List? _fileBytes;
 
   Note() {
     _title = "";
@@ -9,9 +12,10 @@ class Note {
     _path = "";
   }
 
-  Note.withData({title = "", description = "", path = ""}) {
+  Note.withData({title = "", description = "", path = "", fileBytes}) {
     _title = title;
     _description = description;
+    _fileBytes = fileBytes;
     _path = path;
   }
 
@@ -24,6 +28,7 @@ class Note {
   String get title => _title;
   String get description => _description;
   String get path => _path;
+  Uint8List? get fileBytes => _fileBytes;
 
   set title(String newTitle) {
     if (newTitle.isNotEmpty) {
@@ -40,6 +45,12 @@ class Note {
   set path(String newPath) {
     if (newPath.isNotEmpty) {
       _path = newPath;
+    }
+  }
+
+  set fileBytes(Uint8List? newFileBytes) {
+    if (newFileBytes != null) {
+      _fileBytes = newFileBytes;
     }
   }
 
